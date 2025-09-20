@@ -1,0 +1,25 @@
+# Node modules
+node_modules/
+
+# Environment
+.env
+.env.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+.cache/
+
+# Uploads (if using Cloudinary/S3, else remove)
+uploads/
+
+# OS
+.DS_Store
+Thumbs.db
