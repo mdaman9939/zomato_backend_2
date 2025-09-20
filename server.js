@@ -15,7 +15,7 @@ connectDB();
 // CORS middleware
 app.use(
   cors({
-    origin: "http://127.0.0.1:5500",
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -26,7 +26,7 @@ app.use(express.json());
 // Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// root 
+// root
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
