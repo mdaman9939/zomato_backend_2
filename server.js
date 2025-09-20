@@ -26,6 +26,11 @@ app.use(express.json());
 // Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// root 
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
 // Routes
 const chatRoutes = require("./routes/chatRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
