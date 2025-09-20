@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 
 const ChatSchema = new mongoose.Schema({
   userId: String,
+  name: { type: String },
+  email: { type: String },
   age: Number,
   messages: [
     {

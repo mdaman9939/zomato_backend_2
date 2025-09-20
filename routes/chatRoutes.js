@@ -35,6 +35,8 @@ router.post(
       const user = await User.findById(userId);
       if (!user) return res.status(404).json({ error: "User not found" });
 
+      const name = user.name;
+      const email = user.email;
       const age = user.age;
 
       // Upload images to Cloudinary
@@ -45,21 +47,33 @@ router.post(
             folder: "chatbot",
           });
           imageUrls.push(result.secure_url);
-          console.log("Uploaded image URL:", result.secure_url);
         }
       }
 
+      // Find existing chat or create new
       let chat = await Chat.findOne({ userId });
-      if (!chat) chat = new Chat({ userId, age, messages: [] });
+      if (!chat) {
+        chat = new Chat({
+          userId,
+          name,
+          email,
+          age,
+          messages: [],
+        });
+      } else {
+        // Update name, email, age in case they changed
+        chat.name = name;
+        chat.email = email;
+        chat.age = age;
+      }
 
-      // Save user message with Cloudinary image URLs
+      // Save user message
       const userMessage = {
         role: "user",
         text: message || "",
-        images: imageUrls.length > 0 ? imageUrls : [], // Ensure array is passed
+        images: imageUrls.length > 0 ? imageUrls : [],
         time: new Date(),
       };
-      console.log("User message to save:", userMessage);
       chat.messages.push(userMessage);
 
       // Bot reply logic
@@ -102,7 +116,6 @@ router.post(
 
       chat.messages.push({ role: "bot", text: reply, time: new Date() });
       await chat.save();
-      console.log("Saved chat document:", chat); // Log the saved document
 
       res.json({ reply, options, step: nextStep });
     } catch (error) {
