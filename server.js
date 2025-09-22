@@ -15,11 +15,12 @@ connectDB();
 // CORS middleware
 app.use(
   cors({
-    origin: "*",
+    origin: ["https://zomato-frontend-tawny.vercel.app"],
     methods: ["GET", "POST"],
     credentials: true,
   })
 );
+
 
 app.use(express.json());
 
